@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bhavishiya S — Data Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#07080d;
+  --s1:#0e1117;
+  --s2:#131a24;
+  --teal:#00f5c3;
+  --teal-dim:rgba(0,245,195,0.10);
+  --teal-border:rgba(0,245,195,0.18);
+  --gold:#f5a623;
+  --purple:#c084fc;
+  --text:#dde6f5;
+  --muted:#5d7490;
+  --border:rgba(255,255,255,0.06);
+}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+
+/* BG BLOBS */
+.bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(130px);opacity:.10;}
+.b1{width:700px;height:700px;background:var(--teal);top:-200px;right:-150px;animation:drift 18s ease-in-out infinite;}
+.b2{width:500px;height:500px;background:var(--purple);bottom:-150px;left:-100px;animation:drift 22s ease-in-out infinite reverse;}
+.b3{width:380px;height:380px;background:var(--gold);top:40%;left:35%;animation:drift 15s ease-in-out infinite 4s;}
+@keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(35px,28px);}}
+
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(0,245,195,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,195,.022) 1px,transparent 1px);
+  background-size:70px 70px;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 64px;
+  background:rgba(7,8,13,.88);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;
+  color:var(--teal);
+}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{
+  font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;transition:color .25s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--teal);}
+
+/* SHARED */
+section{position:relative;z-index:1;}
+.wrap{max-width:1160px;margin:0 auto;padding:0 64px;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);
+  margin-bottom:14px;
+}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--teal);}
+.sec-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;
+  letter-spacing:-.03em;line-height:1.06;margin-bottom:60px;
+}
+.sec-title em{font-style:italic;color:var(--teal);}
+
+/* HERO */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:120px 64px 80px;
+}
+.hero-inner{max-width:800px;}
+.badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--teal-dim);border:1px solid var(--teal-border);
+  padding:7px 18px;border-radius:100px;margin-bottom:36px;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);
+  animation:up .8s ease both;
+}
+.badge-dot{width:7px;height:7px;background:var(--teal);border-radius:50%;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+.hero-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,5vw,4.2rem);font-weight:900;
+  line-height:.9;letter-spacing:-.04em;margin-bottom:26px;
+  animation:up .8s .1s ease both;
+}
+.hero-name .accent{
+  font-style:italic;font-weight:700;
+  background:linear-gradient(130deg,var(--teal),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-quote{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.2rem;color:var(--gold);margin-bottom:22px;
+  animation:up .8s .18s ease both;
+}
+.hero-desc{
+  font-size:.93rem;line-height:1.85;color:var(--muted);
+  max-width:580px;margin-bottom:44px;
+  animation:up .8s .26s ease both;
+}
+.hero-desc strong{color:var(--text);}
+
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:up .8s .34s ease both;}
+.btn-main{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 30px;border-radius:6px;
+  background:linear-gradient(135deg,var(--teal),#00c4a0);
+  color:#07080d;font-weight:800;font-size:.85rem;letter-spacing:.04em;
+  text-decoration:none;transition:opacity .25s,transform .25s;
+}
+.btn-main:hover{opacity:.86;transform:translateY(-2px);}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 30px;border-radius:6px;
+  border:1px solid var(--border);color:var(--text);
+  font-weight:600;font-size:.85rem;letter-spacing:.04em;
+  text-decoration:none;background:transparent;
+  transition:border-color .25s,color .25s,transform .25s;
+}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);}
+
+.scroll-hint{
+  position:absolute;bottom:40px;left:64px;
+  display:flex;align-items:center;gap:14px;
+  font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  animation:up .8s .5s ease both;
+}
+.scroll-hint::after{content:'';width:48px;height:1px;background:var(--muted);}
+
+@keyframes up{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+
+/* ABOUT */
+#about{padding:130px 0;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-text .sec-title{margin-bottom:24px;}
+.about-text p{font-size:.91rem;line-height:1.9;color:var(--muted);margin-bottom:18px;}
+.about-text p strong{color:var(--text);}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.stat{
+  background:var(--s1);border:1px solid var(--border);
+  border-radius:10px;padding:26px 22px;
+  position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+}
+.stat:hover{border-color:var(--teal-border);transform:translateY(-4px);}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--purple));}
+.stat-num{
+  font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;
+  background:linear-gradient(135deg,var(--teal),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;margin-bottom:6px;
+}
+.stat-label{font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+/* SKILLS */
+#skills{padding:130px 0;background:var(--s1);}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 60px;}
+.skill-row{display:flex;flex-direction:column;gap:10px;}
+.skill-top{display:flex;justify-content:space-between;align-items:center;}
+.skill-name{font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.skill-pct{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--teal);}
+.skill-track{height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;}
+.skill-fill{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--purple));transition:width 1.4s cubic-bezier(.16,1,.3,1);}
+
+/* PROJECTS */
+#projects{padding:130px 0;}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.proj-card{
+  background:var(--s1);border:1px solid var(--border);
+  border-radius:10px;padding:30px 24px;
+  transition:border-color .35s,transform .35s;
+  position:relative;overflow:hidden;
+}
+.proj-card:hover{border-color:var(--teal-border);transform:translateY(-6px);}
+.proj-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,245,195,.04),rgba(192,132,252,.04));
+  opacity:0;transition:opacity .35s;pointer-events:none;
+}
+.proj-card:hover::after{opacity:1;}
+.proj-emoji{
+  width:46px;height:46px;border-radius:8px;
+  background:var(--teal-dim);border:1px solid var(--teal-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:20px;
+}
+.proj-tag{
+  font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--teal);background:var(--teal-dim);
+  padding:3px 10px;border-radius:100px;
+  display:inline-block;margin-bottom:12px;
+}
+.proj-title{
+  font-family:'Playfair Display',serif;font-size:1rem;
+  font-weight:700;margin-bottom:10px;line-height:1.3;
+}
+.proj-desc{font-size:.79rem;line-height:1.75;color:var(--muted);}
+
+/* CERTIFICATIONS */
+#certifications{padding:130px 0;background:var(--s1);}
+.cert-list{display:flex;flex-direction:column;gap:12px;max-width:840px;}
+.cert-card{
+  display:flex;align-items:center;gap:20px;
+  padding:20px 26px;background:var(--bg);
+  border:1px solid var(--border);border-radius:10px;
+  transition:border-color .3s,transform .3s;
+}
+.cert-card:hover{border-color:rgba(192,132,252,.3);transform:translateX(8px);}
+.cert-icon{
+  width:42px;height:42px;flex-shrink:0;border-radius:8px;
+  background:rgba(192,132,252,.1);border:1px solid rgba(192,132,252,.2);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.cert-info .cert-name{font-weight:700;font-size:.88rem;margin-bottom:3px;}
+.cert-info .cert-org{font-size:.73rem;color:var(--muted);}
+.cert-date{
+  margin-left:auto;flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;font-size:.67rem;
+  color:var(--purple);letter-spacing:.04em;
+}
+
+/* PROFILES */
+#profiles{padding:130px 0;}
+.prof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:680px;}
+.prof-card{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:32px 20px;background:var(--s1);
+  border:1px solid var(--border);border-radius:10px;
+  text-decoration:none;color:var(--text);
+  transition:border-color .3s,transform .3s;text-align:center;
+}
+.prof-card:hover{border-color:var(--teal-border);transform:translateY(-5px);}
+.prof-svg{width:30px;height:30px;fill:var(--teal);}
+.prof-name{font-weight:700;font-size:.85rem;}
+.prof-handle{font-family:'JetBrains Mono',monospace;font-size:.67rem;color:var(--muted);}
+
+/* CONTACT */
+#contact{padding:130px 0 90px;background:var(--s1);text-align:center;}
+#contact .eyebrow{justify-content:center;}
+#contact .sec-title{margin-bottom:14px;}
+.contact-sub{font-size:.92rem;color:var(--muted);margin-bottom:40px;line-height:1.7;max-width:500px;margin-left:auto;margin-right:auto;}
+.contact-email{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.25rem;color:var(--teal);display:inline-block;
+  text-decoration:none;border-bottom:1px solid var(--teal-border);
+  padding-bottom:4px;margin-bottom:40px;transition:color .25s;
+}
+.contact-email:hover{color:var(--gold);}
+.contact-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{
+  padding:36px 64px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  position:relative;z-index:1;
+  font-size:.68rem;color:var(--muted);letter-spacing:.07em;
+}
+footer .f-teal{color:var(--teal);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  #hero{padding:100px 24px 60px;}
+  .wrap{padding:0 24px;}
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  .skills-grid{grid-template-columns:1fr;gap:20px;}
+  .proj-grid{grid-template-columns:1fr;}
+  .prof-grid{grid-template-columns:repeat(2,1fr);}
+  .scroll-hint{left:24px;}
+  footer{padding:24px;flex-direction:column;gap:8px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-blobs" aria-hidden="true">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+<div class="grid-bg" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Bhavishiya<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#profiles">Profiles</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Data Scientist &amp; Analytics Enthusiast
+    </div>
+    <h1 class="hero-name">
+      BHAVISHIYA <span class="accent">S.</span>
+    </h1>
+    <p class="hero-quote">"Passionate about turning data into meaningful insights."</p>
+    <p class="hero-desc">
+      Hi, I'm Bhavishiya — a passionate <strong>3rd-year Computer Science &amp; Engineering</strong> student deeply enthusiastic about <strong>Data Science, Analytics &amp; Machine Learning</strong>. I enjoy transforming raw data into meaningful insights and building innovative applications that solve real-world problems. My goal is to grow into a skilled Data Scientist and contribute to impactful, data-driven solutions.
+    </p>
+    <div class="hero-btns">
+      <a class="btn-main" href="BHAVISHIYA_S2.pdf" download="Bhavishiya_S_Resume.pdf">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Resume
+      </a>
+      <a class="btn-ghost" href="#projects">View Projects →</a>
+      <a class="btn-ghost" href="#contact">Let's Connect</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow">Who I Am</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <h2 class="sec-title">Turning raw data<br><em>into stories</em></h2>
+        <p>I'm currently pursuing my <strong>Bachelor of Computer Science and Engineering</strong> with a strong CGPA of <strong>8.5</strong>. I'm continuously strengthening my skills in Python, Java, SQL, R, and Data Analysis while actively exploring Machine Learning and AI concepts.</p>
+        <p>As a self-driven learner, I love taking on new challenges, building data-driven projects, and improving my technical and analytical abilities. I'm fluent in <strong>Tamil, English, and Hindi</strong>.</p>
+        <p>Based in <strong>Chennai, Tamil Nadu</strong> — open to internships, collaborations, and data science opportunities.</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-num">8.5</div>
+          <div class="stat-label">Current CGPA</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">6+</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Languages Spoken</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow">Technical Expertise</div>
+    <h2 class="sec-title">Skills &amp; <em>Technologies</em></h2>
+    <div class="skills-grid" id="skillsGrid">
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Python</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-fill" data-w="95"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Data Science</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" data-w="90"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Machine Learning</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" data-w="88"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Power BI</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" data-w="90"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">R Language</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" data-w="90"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Tableau</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" data-w="85"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Artificial Intelligence</span><span class="skill-pct">87%</span></div><div class="skill-track"><div class="skill-fill" data-w="87"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">MySQL</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" data-w="85"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Java</span><span class="skill-pct">80%</span></div><div class="skill-track"><div class="skill-fill" data-w="80"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Excel</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" data-w="88"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">UI/UX Design</span><span class="skill-pct">89%</span></div><div class="skill-track"><div class="skill-fill" data-w="89"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">C Programming</span><span class="skill-pct">82%</span></div><div class="skill-track"><div class="skill-fill" data-w="82"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow">What I've Built</div>
+    <h2 class="sec-title">Featured <em>Projects</em></h2>
+    <div class="proj-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="proj-card">
+        <div class="proj-emoji">🤖</div>
+        <span class="proj-tag">Machine Learning</span>
+        <div class="proj-title">AI-Based NGO Recommendation System</div>
+        <p class="proj-desc">An intelligent recommendation system that suggests suitable NGOs based on user preferences and needs. Implemented ML algorithms to improve matching accuracy and enhance social impact.</p>
+      </div>
+      <div class="proj-card">
+        <div class="proj-emoji">🌦️</div>
+        <span class="proj-tag">NLP · Chatbot</span>
+        <div class="proj-title">Weather Chatbot</div>
+        <p class="proj-desc">Built an interactive weather chatbot that fetches real-time weather data based on user queries. Integrated natural language understanding to provide location-based forecasts and climate insights conversationally.</p>
+      </div>
+      <div class="proj-card">
+        <div class="proj-emoji">🐟</div>
+        <span class="proj-tag">Full Stack · App</span>
+        <div class="proj-title">Fish Selling App</div>
+        <p class="proj-desc">Developed a fish selling application connecting buyers and sellers directly. Features include product listings, filtering by fish type, price management, and a smooth ordering experience for local seafood commerce.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="wrap">
+    <div class="eyebrow">Credentials</div>
+    <h2 class="sec-title">Certification <em>Courses</em></h2>
+    <div class="cert-list">
+      <div class="cert-card">
+        <div class="cert-icon">🧠</div>
+        <div class="cert-info">
+          <div class="cert-name">Machine Learning (NPTEL)</div>
+          <div class="cert-org">Indian Institute of Technology — NPTEL</div>
+        </div>
+        <div class="cert-date">2024</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🐍</div>
+        <div class="cert-info">
+          <div class="cert-name">IBM Python for Data Science</div>
+          <div class="cert-org">IBM — Coursera</div>
+        </div>
+        <div class="cert-date">2024</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⚙️</div>
+        <div class="cert-info">
+          <div class="cert-name">Diploma in UiPath (RPA)</div>
+          <div class="cert-org">UiPath Academy</div>
+        </div>
+        <div class="cert-date">2024</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">☁️</div>
+        <div class="cert-info">
+          <div class="cert-name">Oracle Cloud Infrastructure Generative AI Certified Professional</div>
+          <div class="cert-org">Oracle Corporation</div>
+        </div>
+        <div class="cert-date">Jul 2024</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">☕</div>
+        <div class="cert-info">
+          <div class="cert-name">Programming in Java (NPTEL)</div>
+          <div class="cert-org">Indian Institute of Technology, Kharagpur</div>
+        </div>
+        <div class="cert-date">Jul 2024</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">📡</div>
+        <div class="cert-info">
+          <div class="cert-name">Acquiring Data</div>
+          <div class="cert-org">IT-ITeS Sector Skill Council NASSCOM</div>
+        </div>
+        <div class="cert-date">Jun 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILES -->
+<section id="profiles">
+  <div class="wrap">
+    <div class="eyebrow">Find Me Online</div>
+    <h2 class="sec-title">My <em>Profiles</em></h2>
+    <div class="prof-grid">
+      <a href="https://github.com/Bhavishiya" target="_blank" class="prof-card">
+        <svg class="prof-svg" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        <div class="prof-name">GitHub</div>
+        <div class="prof-handle">@Bhavishiya</div>
+      </a>
+      <a href="https://www.linkedin.com/in/bhavishiya-s-432019328/" target="_blank" class="prof-card">
+        <svg class="prof-svg" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <div class="prof-name">LinkedIn</div>
+        <div class="prof-handle">bhavishiya-s</div>
+      </a>
+      <a href="mailto:sbhavishiyaa@gmail.com" class="prof-card">
+        <svg class="prof-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        <div class="prof-name">Email</div>
+        <div class="prof-handle">sbhavishiyaa</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow">Get In Touch</div>
+    <h2 class="sec-title">Let's Work <em>Together</em></h2>
+    <p class="contact-sub">I'm currently open to internships, data science projects, and collaboration opportunities. Feel free to reach out!</p>
+    <a href="mailto:sbhavishiyaa@gmail.com" class="contact-email">sbhavishiyaa@gmail.com</a>
+    <div class="contact-btns">
+      <a class="btn-main" href="mailto:sbhavishiyaa@gmail.com">Say Hello →</a>
+      <a class="btn-ghost" href="https://github.com/Bhavishiya" target="_blank">GitHub</a>
+      <a class="btn-ghost" href="https://www.linkedin.com/in/bhavishiya-s-432019328/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2025 <span class="f-teal">Bhavishiya S.</span> — Data Scientist Portfolio</div>
+  <div>Chennai, Tamil Nadu 🇮🇳</div>
+</footer>
+
+<script>
+// Skill bars on scroll
+const fills = document.querySelectorAll('.skill-fill');
+const grid = document.getElementById('skillsGrid');
+let done = false;
+new IntersectionObserver(e => {
+  if(e[0].isIntersecting && !done){
+    done = true;
+    fills.forEach(f => f.style.width = f.dataset.w + '%');
+  }
+}, {threshold:.2}).observe(grid);
+
+// Nav active highlight on scroll
+const secs = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  links.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#'+cur);
+  });
+}, {passive:true});
+</script>
+</body>
+</html>
